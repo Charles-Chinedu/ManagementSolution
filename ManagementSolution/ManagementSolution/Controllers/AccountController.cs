@@ -15,6 +15,11 @@ namespace ManagementSolution.Controllers
             return Ok(result);
         }
 
-        
+        [HttpPost("login")]
+        public async Task<ActionResult> SignInAsync(Login user)
+        {
+            var result = await userAccount.SignInAsync(user);
+            return Ok(result);
+        }
     }
 }

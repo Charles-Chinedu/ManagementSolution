@@ -1,7 +1,10 @@
-﻿namespace ManagementSolution.Infrastructure.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ManagementSolution.Infrastructure.Models
 {
     public class ApplicationUser
     {
+        [Key]
         public string Id { get; set; }
         public string? FullName { get; set; }
         public string? Email { get; set; }
