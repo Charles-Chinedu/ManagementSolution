@@ -1,4 +1,5 @@
-﻿using ManagementSolution.Domain.Entities;
+﻿using ManagementSolution.Application.Models.Identity;
+using ManagementSolution.Domain.Entities;
 using ManagementSolution.Domain.Entities.Role;
 using ManagementSolution.Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ namespace ManagementSolution.Infrastructure.Data
         public DbSet<ApplicationUser> AppUsers { get; set; }
         public DbSet<SystemRole> SystemRoles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<RefreshTokenInfo> RefreshTokenInfos { get; set; }
 
     }
 }
