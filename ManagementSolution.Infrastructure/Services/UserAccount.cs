@@ -100,9 +100,11 @@ namespace ManagementSolution.Infrastructure.Services
             return new LoginResponse(true, "Login Successfully.", jwtToken, refreshToken);
         }
 
-        private async Task<UserRole> FindUserRole(string userId) => await appDbContext.UserRoles.FirstOrDefaultAsync(_ => _.UserId == userId);
+        private async Task<UserRole> FindUserRole(string userId) => 
+            await appDbContext.UserRoles.FirstOrDefaultAsync(_ => _.UserId == userId);
 
-        private async Task<SystemRole> FindRoleName(string roleId) => await appDbContext.SystemRoles.FirstOrDefaultAsync(_ => _.Id == roleId);
+        private async Task<SystemRole> FindRoleName(string roleId) => 
+            await appDbContext.SystemRoles.FirstOrDefaultAsync(_ => _.Id == roleId);
 
         private string GenerateToken(ApplicationUser user, string roleName)
         {
@@ -119,12 +121,13 @@ namespace ManagementSolution.Infrastructure.Services
                 issuer: config.Value.Issuer,
                 audience: config.Value.Audience,
                 claims: userClaims,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddSeconds(200),
                 signingCredentials: creds);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private static string GenerateRefreshToken() => Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+        private static string GenerateRefreshToken() => 
+            Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
 
         private async Task<ApplicationUser> FindUserByEmail(string email) =>
             await appDbContext.AppUsers.FirstOrDefaultAsync(x => x.Email!.ToLower()!.Equals(email!.ToLower()));

@@ -2,7 +2,7 @@
 
 namespace ManagementSolution.Application.DTOs
 {
-    public class AccountBase
+    public abstract class AccountBase
     {
         [DataType(DataType.EmailAddress)]
         [EmailAddress(ErrorMessage = "Invalid Email Address")]

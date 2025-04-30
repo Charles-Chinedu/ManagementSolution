@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace ManagementSolution.Domain.Entities.BaseEntities
 {
@@ -7,12 +6,9 @@ namespace ManagementSolution.Domain.Entities.BaseEntities
     {
         [Key]
         public string Id { get; set; }
+        [Required]
         public string? Name { get; set; }
-
-        // Relationship: One to Many
-        [JsonIgnore]
-        public List<Employee>? Employees { get; set; }
-
+        
         public BaseEntity()
         {
             Id = Guid.NewGuid().ToString();

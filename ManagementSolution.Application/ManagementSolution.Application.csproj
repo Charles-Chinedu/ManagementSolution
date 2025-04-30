@@ -10,4 +10,8 @@
     <ProjectReference Include="..\ManagementSolution.Domain\ManagementSolution.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\BaseDTO\" />
+  </ItemGroup>
+
 </Project>
