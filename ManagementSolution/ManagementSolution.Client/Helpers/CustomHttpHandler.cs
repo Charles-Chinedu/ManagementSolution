@@ -22,29 +22,36 @@ namespace ManagementSolution.Client.Helpers
             var result = await base.SendAsync(request, cancellationToken);
             if(result.StatusCode == HttpStatusCode.Unauthorized)
             {
-                /// Get token from localStorage
-                var stringToken = await _localStorageService.GetToken();
-                if (stringToken == null) return result;
-
-                /// Check if the header contains token
-                string token = string.Empty;
-                try { token = request.Headers.Authorization!.Parameter!; } 
-                catch { }
-
-                var deserializedToken = Serializations.DeserializeJsonString<UserSession>(stringToken);
-                if (deserializedToken == null) return result;
-
-                if (string.IsNullOrEmpty(token))
+                try
                 {
-                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", deserializedToken.Token);
+                    /// Get token from localStorage
+                    var stringToken = await _localStorageService.GetToken();
+                    if (stringToken == null) return result;
+
+                    /// Check if the header contains token
+                    string token = string.Empty;
+                    try { token = request.Headers.Authorization!.Parameter!; } 
+                    catch { }
+
+                    var deserializedToken = Serializations.DeserializeJsonString<UserSession>(stringToken);
+                    if (deserializedToken == null) return result;
+
+                    if (string.IsNullOrEmpty(token))
+                    {
+                        request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", deserializedToken.Token);
+                        return await base.SendAsync(request, cancellationToken);
+                    }
+
+                    var newJwtToken = await GetRefreshToken(deserializedToken.RefreshToken!);
+                    if (string.IsNullOrEmpty(newJwtToken)) return result;
+
+                    request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", newJwtToken);
                     return await base.SendAsync(request, cancellationToken);
                 }
+                catch (InvalidOperationException)
+                {
 
-                var newJwtToken = await GetRefreshToken(deserializedToken.RefreshToken!);
-                if (string.IsNullOrEmpty(newJwtToken)) return result;
-
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", newJwtToken);
-                return await base.SendAsync(request, cancellationToken);
+                }
             }
             return result;
         }

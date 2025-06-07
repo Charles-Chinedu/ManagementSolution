@@ -1,5 +1,6 @@
 ﻿@using System.Net.Http
 @using System.Net.Http.Json
+@using ManagementSolution.Client.ApplicationStates
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
@@ -9,10 +10,22 @@
 @using ManagementSolution
 @using ManagementSolution.Client
 @using ManagementSolution.Components
+@using Microsoft.AspNetCore.Authorization
 
 @using ManagementSolution.Application.DTOs
 @using ManagementSolution.Client.Helpers
 @using Microsoft.AspNetCore.Components.Authorization
+@using ManagementSolution.Client.Pages.AdministrationPage
+@using ManagementSolution.Client.Pages.Content.DepartmentPages
+@using ManagementSolution.Client.Pages.Content.LocationPages
+@using ManagementSolution.Client.Pages.Content.UserPage
+@using ManagementSolution.Client.Pages.Content.EmployeePages 
+@using ManagementSolution.Client.Pages.OtherPages.DoctorPage
+@using ManagementSolution.Client.Pages.OtherPages.OvertimePages
+@using ManagementSolution.Client.Pages.OtherPages.SanctionPages
+@using ManagementSolution.Client.Pages.OtherPages.VacationPage
+@using ManagementSolution.Client.Pages.ProfilePages
 
 @inject AuthenticationStateProvider AuthStateProvider
 @inject NavigationManager NavManager
+@inject AllState allState

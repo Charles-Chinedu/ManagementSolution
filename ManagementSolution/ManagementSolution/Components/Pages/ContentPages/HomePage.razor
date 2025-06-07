@@ -1,13 +1,26 @@
 ﻿@page "/home/dashboard"
-@using ManagementSolution.Client.Pages.AdministrationPage
-@using ManagementSolution.Client.Pages.DepartmentPages
 
 <TableBanner />
 <GeneralDepartmentPage />
+<DepartmentPage />
+<BranchPage />
+<CountryPage />
+<CityPage />
+<TownPage />
+<UserPage />
+<DoctorPage />
+<OvertimePage />
+<SanctionPage />
+<VacationPage />
+<VacationTypePage />
+<OvertimeTypePage />
+<SanctionTypePage />
+<EmployeePage />
+<ProfilePage />
 
 @code {
     [CascadingParameter]
-    public Task<AuthenticationState> AuthenticationState { get; set; }
+    public Task<AuthenticationState> AuthenticationState { get; set; } = default!;
     protected async override Task OnInitializedAsync()
     {
         await CheckUserAuthentication();

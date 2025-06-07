@@ -6,10 +6,11 @@ namespace ManagementSolution.Domain.Entities.BaseEntities
     {
         [Key]
         public string Id { get; set; }
-        [Required]
-        public string CivilId { get; set; } = string.Empty;
-        [Required]
-        public string FileNumber { get; set; } = string.Empty;
-        public string? Other { get; set; }
+        public string EmployeeId { get; set; }
+
+        public EmployeeBaseEntity() 
+        {
+            Id = Guid.NewGuid().ToString();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using ManagementSolution.Domain.Entities.BaseEntities;
+using System.Text.Json.Serialization;
 
 namespace ManagementSolution.Domain.Entities
 {
@@ -10,6 +11,7 @@ namespace ManagementSolution.Domain.Entities
         public string DepartmentId { get; set; }
 
         // Relationship : One to Many : One Branch Many Employees
+        [JsonIgnore]
         public List<Employee>? Employees { get; set; }
     }
 }

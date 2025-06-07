@@ -21,11 +21,12 @@
     </PackageReference>
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.8.0" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.1.9" />
+    <PackageReference Include="Syncfusion.Blazor" Version="29.2.7" />
+    <PackageReference Include="Syncfusion.Licensing" Version="29.2.7" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.8.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\AccountModels\" />
     <Folder Include="wwwroot\Images\Background\" />
   </ItemGroup>
 

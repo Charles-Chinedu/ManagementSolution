@@ -1,5 +1,6 @@
 ﻿using ManagementSolution.Application.DTOs;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.JSInterop;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
@@ -11,17 +12,25 @@ namespace ManagementSolution.Client.Helpers
         
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var stringToken = await localStorageService.GetToken();
-            if (string.IsNullOrEmpty(stringToken)) return await Task.FromResult(new AuthenticationState(anonymous));
+            try
+            {
+                var stringToken = await localStorageService.GetToken();
+                if (string.IsNullOrEmpty(stringToken)) return await Task.FromResult(new AuthenticationState(anonymous));
 
-            var deserializeToken = Serializations.DeserializeJsonString<UserSession>(stringToken);
-            if (deserializeToken == null) return await Task.FromResult(new AuthenticationState(anonymous));
+                var deserializeToken = Serializations.DeserializeJsonString<UserSession>(stringToken);
+                if (deserializeToken == null) return await Task.FromResult(new AuthenticationState(anonymous));
 
-            var getUserClaims = DecryptToken(deserializeToken.Token!);
-            if (getUserClaims == null) return await Task.FromResult(new AuthenticationState(anonymous));
+                var getUserClaims = DecryptToken(deserializeToken.Token!);
+                if (getUserClaims == null) return await Task.FromResult(new AuthenticationState(anonymous));
 
-            var claimsPrincipal = SetClaimsPrincipal(getUserClaims);
-            return await Task.FromResult(new AuthenticationState(claimsPrincipal));
+                var claimsPrincipal = SetClaimsPrincipal(getUserClaims);
+                return await Task.FromResult(new AuthenticationState(claimsPrincipal));
+
+            }
+            catch (JSException)
+            {
+                return new AuthenticationState(anonymous);
+            }
         }
 
         public async Task UpdateAuthenticationState(UserSession userSession)

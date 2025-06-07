@@ -1,0 +1,90 @@
+﻿<SfDialog Width="280px" IsModal="true" ShowCloseIcon="true" @bind-Value="IsVisible">
+    <DialogEvents OnOpen="OpenDialog"></DialogEvents>
+    <DialogTemplates>
+        <Header>@Title Employee's Sanction</Header>
+        <Content>
+            <EditForm Model="ItemModel" Enhance OnSubmit="Save">
+                <div class="card border-success">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">Employee ID</label>
+                            <input @bind="ItemModel.EmployeeId" class="form-control" disabled />
+                        </div>
+                        <div class="form-group mt-2">
+                            <label class="form-label">Start Date</label>
+                            <InputDate @bind-Value="ItemModel.Date" class="form-control" />
+                        </div>
+                        <div class="form-group mt-2">
+                            <label class="form-label">End Date</label>
+                            <InputDate @bind-Value="ItemModel.PunishmentDate" class="form-control" />
+                        </div>
+                        <div class="form-group mt-2">
+                            <label class="form-label">Duration</label>
+                            <input value="@ItemModel.Punishment" class="form-control" />
+                        </div>
+                        <div class="form-group mt-3 mb-3">
+                            <label class="form-label">Select Type</label>
+                            @if (ItemModel.SanctionType != null)
+                            {
+                                string selected = ItemModel.SanctionType!.Name!;
+                                <SfDropDownList TValue="string"
+                                                TItem="SanctionType"
+                                                Placeholder="@selected"
+                                                DataSource="SanctionTypes">
+                                    <DropDownListFieldSettings Value="Id" Text="Name"></DropDownListFieldSettings>
+                                    <DropDownListEvents TValue="string" TItem="SanctionType" ValueChange="OnValueChange"></DropDownListEvents>
+                                </SfDropDownList>
+                            }
+                            else
+                            {
+                                <SfDropDownList TValue="string"
+                                                TItem="SanctionType"
+                                                Placeholder="Select Overtime Type"
+                                                DataSource="SanctionTypes">
+                                    <DropDownListFieldSettings Value="Id" Text="Name"></DropDownListFieldSettings>
+                                    <DropDownListEvents TValue="string" TItem="SanctionType" ValueChange="OnValueChange"></DropDownListEvents>
+                                </SfDropDownList>
+                            }
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button class="btn btn-primary float-end" type="submit">Save</button>
+                    </div>
+                </div>
+            </EditForm>
+        </Content>
+    </DialogTemplates>
+
+</SfDialog>
+
+@code {
+    [Parameter] public Sanction ItemModel { get; set; } = new();
+    [Parameter] public List<SanctionType> SanctionTypes { get; set; } = new();
+    [Parameter] public EventCallback<Sanction> HandleSaveOperationEvent { get; set; }
+
+    public string Title { get; set; } = "Add";
+    private bool IsVisible { get; set; } = false;
+    private async void Save()
+    {
+        if (string.IsNullOrEmpty(ItemModel.SanctionTypeId))
+            await dialogService.AlertAsync("You need to provide type.", "Alert!");
+        else
+            await HandleSaveOperationEvent.InvokeAsync(ItemModel);
+    }
+
+    public void OpenDialog()
+    {
+        IsVisible = true;
+        StateHasChanged();
+    }
+
+    public void CloseDialog()
+    {
+        IsVisible = false;
+        StateHasChanged();
+    }
+
+    public void OnValueChange(ChangeEventArgs<string, SanctionType> args) => ItemModel.SanctionTypeId = args.Value;
+
+    public void ChangeTitle(string title) => Title = title;
+}

@@ -1,0 +1,31 @@
+﻿.floatingDiv {
+    width: 500px;
+    background: #228ada;
+    height: 10px;
+}
+
+.floatingNumber {
+    border-radius: 50%;
+    color: white;
+    background: #1d1858;
+    width: 20px;
+    height: 20px;
+}
+
+.inactive-div {
+    width: 500px;
+    background: gray;
+    height: 10px;
+}
+
+.inactive-span {
+    border-radius: 50%;
+    color: white;
+    background: gray;
+    width: 20px;
+    height: 20px;
+}
+
+.format-border {
+    border-radius: 20px;
+}

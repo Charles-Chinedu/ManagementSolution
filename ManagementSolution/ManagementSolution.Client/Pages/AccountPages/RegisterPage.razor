@@ -1,7 +1,5 @@
 ﻿@page "/identity/account/register"
-@using Syncfusion.Blazor.Popups
 @rendermode InteractiveAuto
-@inject SfDialogService DialogService
 
 <div class="container">
     <div class="row">
@@ -72,7 +70,7 @@
     Register User = new();
 
     [CascadingParameter]
-    public Task<AuthenticationState> AuthenticationState { get; set; }
+    public Task<AuthenticationState>? AuthenticationState { get; set; }
     protected async override Task OnInitializedAsync()
     {
         await CheckUserAuthentication();
@@ -96,12 +94,12 @@
 
     private async Task DisplayDialog(string content, string title)
     {
-        await DialogService.AlertAsync(content, title);
+        await dialogService.AlertAsync(content, title);
     }
 
     private async Task CheckUserAuthentication()
     {
-        var user = (await AuthenticationState).User;
+        var user = (await AuthenticationState!).User;
         bool isUserAuthenticated = user.Identity!.IsAuthenticated;
         if (!isUserAuthenticated)
             NavManager.NavigateTo("/identity/account/login");
